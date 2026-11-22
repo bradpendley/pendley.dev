@@ -1,0 +1,12 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="404 — pendley.dev">
+  <main id="main" class="grid min-h-dvh place-items-center px-6">
+    <div class="font-mono text-sm">
+      <p class="text-muted"><span class="text-emerald">$</span> cd {Astro.url.pathname}</p>
+      <p class="mt-2 text-amber">error: no such file or directory (404)</p>
+      <p class="mt-6"><a href="/" class="text-cyan underline underline-offset-4">cd ~/pendley.dev</a></p>
+    </div>
+  </main>
+</Base>

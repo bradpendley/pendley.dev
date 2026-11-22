@@ -1,0 +1,9 @@
+name = "pendley-dev"
+compatibility_date = "2026-11-01"
+pages_build_output_dir = "./dist"
+
+# Non-secret vars for the contact function. Set RESEND_API_KEY as a secret:
+#   npx wrangler pages secret put RESEND_API_KEY --project-name pendley-dev
+[vars]
+CONTACT_TO = "bradley@pendley.dev"
+CONTACT_FROM = "pendley.dev <contact@pendley.dev>"

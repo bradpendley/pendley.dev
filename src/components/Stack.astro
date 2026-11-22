@@ -1,0 +1,39 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import { pillars } from '../data/stack';
+---
+<section id="stack" aria-labelledby="stack-title" class="border-t border-line">
+  <div class="mx-auto max-w-6xl px-5 py-24 sm:px-8">
+    <SectionHeader id="stack-title" index="03" eyebrow="Capabilities" title="Technical Stack">
+      <p class="max-w-sm text-sm leading-relaxed text-muted">
+        Depth in the enterprise .NET and CAD ecosystem, range across mobile, edge, and hardware.
+      </p>
+    </SectionHeader>
+
+    <div class="mt-12 grid overflow-hidden rounded-2xl border border-line sm:grid-cols-2 lg:grid-cols-4">
+      {pillars.map((p, i) => (
+        <section
+          aria-labelledby={`pillar-${p.id}`}
+          class:list={[
+            'bg-ink-2/50 p-6 sm:p-7',
+            'border-line',
+            i > 0 && 'border-t sm:border-t-0',
+            i % 2 === 1 && 'sm:border-l',
+            i >= 2 && 'sm:border-t lg:border-t-0',
+            i === 2 && 'lg:border-l',
+          ]}
+        >
+          <p class="font-mono text-[11px] tracking-[0.18em] text-cyan">{p.code}</p>
+          <h3 id={`pillar-${p.id}`} class="mt-2 text-base font-semibold text-paper">{p.title}</h3>
+          <ul class="mt-5 space-y-2.5">
+            {p.items.map((item) => (
+              <li class="flex items-baseline gap-2.5 font-mono text-[13px] text-muted">
+                <span class="text-line-2" aria-hidden="true">▸</span>{item}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </div>
+</section>

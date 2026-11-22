@@ -1,0 +1,161 @@
+---
+import Icon, { type IconName } from './Icon.astro';
+import { statusMeta, type Project, type LinkKind } from '../data/projects';
+import { isPlaceholder } from '../data/site';
+import { getApp, fmtDate } from '../lib/live';
+
+interface Props { project: Project; }
+const { project: base } = Astro.props;
+
+// Live App Store data (build-time). If found, it overrides the status badge
+// and fills in the App Store link — no manual edits needed after launch.
+const app = base.appStore ? await getApp(base.appStore) : null;
+const p: Project = app
+  ? {
+      ...base,
+      status: 'live-app-store',
+      links: base.links
+        .filter((l) => l.kind !== 'testflight')
+        .map((l) => (l.kind === 'app-store' ? { ...l, url: app.url } : l)),
+    }
+  : base;
+if (app && !p.links.some((l) => l.kind === 'app-store')) {
+  p.links = [{ kind: 'app-store', label: 'App Store', url: app.url }, ...p.links];
+}
+const status = statusMeta[p.status];
+
+const toneClass = {
+  emerald: 'border-emerald/30 bg-emerald/10 text-emerald',
+  cyan: 'border-cyan/30 bg-cyan/10 text-cyan',
+  amber: 'border-amber/30 bg-amber/10 text-amber',
+  slate: 'border-line-2 bg-ink-3 text-muted',
+}[status.tone];
+
+const linkIcon: Record<LinkKind, IconName> = {
+  'app-store': 'phone',
+  testflight: 'flask',
+  live: 'layers',
+  github: 'github',
+  docs: 'doc',
+};
+const modalId = `details-${p.id}`;
+const wide = p.size === 'wide';
+---
+<article
+  data-project
+  data-cat={p.category.join(' ')}
+  aria-labelledby={`title-${p.id}`}
+  class:list={[
+    'group relative flex flex-col rounded-2xl border border-line bg-ink-2/70 p-6 transition-colors hover:border-line-2 hover:bg-ink-2 sm:p-7',
+    wide && 'md:col-span-2',
+  ]}
+>
+  <header class="flex flex-wrap items-center justify-between gap-3">
+    <p class="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">{p.kicker}</p>
+    <div class="flex flex-wrap items-center gap-2">
+      <span class="rounded-full border border-line-2 px-2.5 py-0.5 font-mono text-[11px] text-paper/90">{p.platform}</span>
+      <span class:list={['inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 font-mono text-[11px]', toneClass]}>
+        <span class="size-1.5 rounded-full bg-current" aria-hidden="true"></span>{status.label}
+      </span>
+    </div>
+  </header>
+
+  <h3 id={`title-${p.id}`} class="mt-5 text-xl font-semibold tracking-tight text-paper sm:text-2xl">{p.title}</h3>
+
+  {app && (
+    <p class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[11px] text-muted">
+      <span><span class="text-emerald">v{app.version}</span> · updated {fmtDate(app.releasedAt)}</span>
+      {app.rating !== null && (
+        <span aria-label={`Rated ${app.rating.toFixed(1)} out of 5 from ${app.ratingCount} ratings`}>
+          <span class="text-amber" aria-hidden="true">★</span> {app.rating.toFixed(1)} <span class="opacity-70">({app.ratingCount})</span>
+        </span>
+      )}
+    </p>
+  )}
+
+  <div class:list={['mt-5 grid gap-5', wide && 'lg:grid-cols-[1fr_1fr] lg:gap-10']}>
+    <dl class="space-y-4 text-sm leading-relaxed">
+      <div>
+        <dt class="font-mono text-[11px] uppercase tracking-widest text-cyan">Problem</dt>
+        <dd class="mt-1 text-muted">{p.problem}</dd>
+      </div>
+      <div>
+        <dt class="font-mono text-[11px] uppercase tracking-widest text-emerald">Solution</dt>
+        <dd class="mt-1 text-paper/90">{p.solution}</dd>
+      </div>
+    </dl>
+
+    <div>
+      <p class="font-mono text-[11px] uppercase tracking-widest text-muted">Architecture</p>
+      <ul class="mt-2 space-y-2 text-sm leading-relaxed text-muted">
+        {p.highlights.map((h) => (
+          <li class="flex gap-2.5"><span class="mt-[0.6em] h-px w-3 shrink-0 bg-cyan/70" aria-hidden="true"></span><span>{h}</span></li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <ul class="mb-6 mt-6 flex flex-wrap gap-1.5" aria-label="Technologies">
+    {p.tags.map((t) => (
+      <li class="rounded-md border border-line bg-ink px-2 py-1 font-mono text-[11px] text-muted">{t}</li>
+    ))}
+  </ul>
+
+  {(p.links.length > 0 || p.details) && (
+    <footer class="mt-auto flex flex-wrap items-center gap-2 border-t border-line pt-5">
+      {p.links.map((l) =>
+        isPlaceholder(l.url) ? (
+          <span class="inline-flex items-center gap-2 rounded-lg border border-dashed border-line-2 px-3 py-2 text-xs text-muted" title="Link coming soon">
+            <Icon name={linkIcon[l.kind]} size={14} /> {l.label}
+            <span class="font-mono text-[10px] uppercase tracking-wider text-muted/80">soon</span>
+          </span>
+        ) : (
+          <a href={l.url} target="_blank" rel="noopener noreferrer"
+             class:list={[
+               'inline-flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition-colors',
+               l.kind === 'app-store' ? 'bg-paper text-ink hover:bg-cyan' : 'border border-line-2 text-paper hover:border-cyan hover:text-cyan',
+             ]}>
+            <Icon name={linkIcon[l.kind]} size={14} /> {l.label} <Icon name="external" size={12} class="opacity-60" />
+            <span class="sr-only">(opens in new tab)</span>
+          </a>
+        )
+      )}
+      {p.details && (
+        <button type="button" popovertarget={modalId}
+          class="inline-flex items-center gap-2 rounded-lg border border-line-2 px-3 py-2 text-xs font-medium text-paper transition-colors hover:border-cyan hover:text-cyan">
+          <Icon name="layers" size={14} /> Architecture Details <Icon name="arrow-right" size={12} />
+        </button>
+      )}
+    </footer>
+  )}
+
+  {p.details && (
+    <div id={modalId} popover role="dialog" aria-modal="true" aria-labelledby={`${modalId}-title`}
+      class="modal overflow-y-auto rounded-2xl border border-line-2 bg-ink-2 p-0 text-paper shadow-2xl shadow-black/60">
+      <div class="sticky top-0 flex items-start justify-between gap-4 border-b border-line bg-ink-2/95 px-6 py-5 backdrop-blur sm:px-8">
+        <div>
+          <p class="font-mono text-[11px] uppercase tracking-[0.16em] text-cyan">Architecture Details</p>
+          <h4 id={`${modalId}-title`} class="mt-1 text-lg font-semibold">{p.title}</h4>
+        </div>
+        <button type="button" popovertarget={modalId} popovertargetaction="hide"
+          class="grid size-9 shrink-0 place-items-center rounded-md border border-line-2 text-muted hover:text-paper" aria-label="Close">
+          <Icon name="close" size={16} />
+        </button>
+      </div>
+      <div class="space-y-6 px-6 py-6 sm:px-8">
+        {p.details.overview.map((para) => <p class="text-sm leading-relaxed text-muted">{para}</p>)}
+        <dl class="divide-y divide-line rounded-xl border border-line">
+          {p.details.architecture.map((a) => (
+            <div class="grid gap-1 px-4 py-4 sm:grid-cols-[7.5rem_1fr] sm:gap-4">
+              <dt class="font-mono text-[11px] uppercase tracking-widest text-cyan sm:pt-0.5">{a.label}</dt>
+              <dd class="text-sm leading-relaxed text-paper/90">{a.text}</dd>
+            </div>
+          ))}
+        </dl>
+        <ul class="flex flex-wrap gap-1.5" aria-label="Technologies">
+          {p.tags.map((t) => <li class="rounded-md border border-line bg-ink px-2 py-1 font-mono text-[11px] text-muted">{t}</li>)}
+        </ul>
+      </div>
+    </div>
+  )}
+</article>

@@ -1,0 +1,15 @@
+---
+import { principles } from '../data/stack';
+---
+<section aria-labelledby="principles-title" class="border-y border-line bg-ink-2/40">
+  <h2 id="principles-title" class="sr-only">How I build</h2>
+  <ol class="mx-auto grid max-w-6xl divide-y divide-line px-5 sm:px-8 md:grid-cols-3 md:divide-x md:divide-y-0">
+    {principles.map((p) => (
+      <li class="py-8 md:px-8 md:first:pl-0 md:last:pr-0">
+        <p class="font-mono text-[11px] tracking-widest text-cyan">{p.code}</p>
+        <h3 class="mt-2 text-base font-semibold text-paper">{p.title}</h3>
+        <p class="mt-2 text-sm leading-relaxed text-muted">{p.text}</p>
+      </li>
+    ))}
+  </ol>
+</section>

@@ -1,0 +1,15 @@
+---
+/** Section header styled like a drawing title-block callout. */
+interface Props { id: string; index: string; eyebrow: string; title: string; }
+const { id, index, eyebrow, title } = Astro.props;
+---
+<div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+  <div>
+    <p class="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
+      <span class="rounded border border-line-2 px-1.5 py-0.5 text-cyan">§{index}</span>
+      {eyebrow}
+    </p>
+    <h2 id={id} class="mt-4 text-3xl font-semibold tracking-tight text-paper sm:text-4xl">{title}</h2>
+  </div>
+  <slot />
+</div>

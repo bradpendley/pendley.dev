@@ -1,0 +1,111 @@
+---
+/**
+ * GitHub activity — fetched at build time (refreshed daily by CI).
+ * Hides itself entirely if GitHub returned nothing.
+ */
+import SectionHeader from './SectionHeader.astro';
+import Icon from './Icon.astro';
+import { site, isPlaceholder } from '../data/site';
+import { getGitHub, relTime, fmtDate } from '../lib/live';
+
+const username = isPlaceholder(site.links.github) ? null : site.links.github.replace(/\/+$/, '').split('/').pop()!;
+const gh = username ? await getGitHub(username) : null;
+
+const weeks = gh?.calendar ?? [];
+const counts = weeks.flat().map((d) => d.count).filter((c) => c > 0).sort((a, b) => a - b);
+const q = (p: number) => counts[Math.min(counts.length - 1, Math.floor(p * counts.length))] ?? 1;
+const thresholds = [q(0.25), q(0.5), q(0.75)];
+const level = (c: number) => (c === 0 ? 0 : c <= thresholds[0] ? 1 : c <= thresholds[1] ? 2 : c <= thresholds[2] ? 3 : 4);
+const levelClass = ['bg-line/70', 'bg-cyan/25', 'bg-cyan/45', 'bg-cyan/70', 'bg-cyan'];
+const MOBILE_WEEKS = 20;
+
+const repos = (gh?.repos ?? []).slice(0, 4);
+const lastPush = repos[0]?.pushedAt;
+const show = !!gh && (weeks.length > 0 || repos.length > 0);
+---
+{show && gh && (
+<section id="activity" aria-labelledby="activity-title" class="border-t border-line">
+  <div class="mx-auto max-w-6xl px-5 py-24 sm:px-8">
+    <SectionHeader id="activity-title" index="02" eyebrow="Shipping log · refreshed daily" title="Recent Activity">
+      <a href={site.links.github} target="_blank" rel="noopener noreferrer"
+         class="inline-flex items-center gap-2 self-start rounded-lg border border-line-2 px-3.5 py-2 font-mono text-xs text-paper transition-colors hover:border-cyan hover:text-cyan sm:self-auto">
+        <Icon name="github" size={14} /> @{gh.username} <Icon name="external" size={12} class="opacity-60" />
+        <span class="sr-only">(opens in new tab)</span>
+      </a>
+    </SectionHeader>
+
+    <div class="mt-12 grid items-start gap-5 lg:grid-cols-[1.35fr_1fr]">
+      <!-- Contribution heatmap + stats -->
+      <div class="rounded-2xl border border-line bg-ink-2/70 p-6 sm:p-7">
+        <dl class="grid grid-cols-3 gap-4">
+          <div>
+            <dt class="font-mono text-[11px] uppercase tracking-widest text-muted">Last 12 mo</dt>
+            <dd class="mt-1 text-2xl font-semibold tabular-nums text-paper">{gh.totalContributions?.toLocaleString('en-US') ?? '—'}</dd>
+          </div>
+          <div>
+            <dt class="font-mono text-[11px] uppercase tracking-widest text-muted">Active days / 30</dt>
+            <dd class="mt-1 text-2xl font-semibold tabular-nums text-paper">{gh.activeDays30 ?? '—'}</dd>
+          </div>
+          <div>
+            <dt class="font-mono text-[11px] uppercase tracking-widest text-muted">Last push</dt>
+            <dd class="mt-1 text-2xl font-semibold text-paper">{lastPush ? relTime(lastPush) : '—'}</dd>
+          </div>
+        </dl>
+
+        {weeks.length > 0 ? (
+          <figure class="mt-7">
+            <div class="flex gap-[3px]" role="img"
+                 aria-label={`GitHub contribution heatmap: ${gh.totalContributions ?? 0} contributions in the last year`}>
+              {weeks.map((week, wi) => (
+                <div class:list={['flex-1 flex-col gap-[3px]', wi < weeks.length - MOBILE_WEEKS ? 'hidden md:flex' : 'flex']}>
+                  {week.map((d) => (
+                    <span class:list={['block aspect-square w-full rounded-[2px]', levelClass[level(d.count)]]}
+                          title={`${d.count} contribution${d.count === 1 ? '' : 's'} · ${fmtDate(d.date)}`}></span>
+                  ))}
+                </div>
+              ))}
+            </div>
+            <figcaption class="mt-3 flex items-center justify-between font-mono text-[11px] text-muted">
+              <span><span class="md:hidden">Last 20 weeks</span><span class="hidden md:inline">Last 12 months</span> · contributions</span>
+              <span class="flex items-center gap-1" aria-hidden="true">
+                less {levelClass.map((c) => <span class:list={['size-2.5 rounded-[2px]', c]}></span>)} more
+              </span>
+            </figcaption>
+          </figure>
+        ) : (
+          <p class="mt-7 font-mono text-xs text-muted">Contribution graph appears once the daily build runs with a GitHub token.</p>
+        )}
+      </div>
+
+      <!-- Recently pushed repos -->
+      <div class="rounded-2xl border border-line bg-ink-2/70 p-6 sm:p-7">
+        <p class="font-mono text-[11px] uppercase tracking-widest text-muted">Recently pushed</p>
+        {repos.length > 0 ? (
+          <ul class="mt-4 divide-y divide-line">
+            {repos.map((r) => (
+              <li>
+                <a href={r.url} target="_blank" rel="noopener noreferrer" class="group block py-3.5 first:pt-0">
+                  <span class="flex items-baseline justify-between gap-3">
+                    <span class="truncate font-mono text-sm text-paper group-hover:text-cyan">{r.name}</span>
+                    <span class="shrink-0 font-mono text-[11px] text-muted">{relTime(r.pushedAt)}</span>
+                  </span>
+                  {r.description && <span class="mt-1 block truncate text-sm text-muted">{r.description}</span>}
+                  {r.language && (
+                    <span class="mt-1.5 inline-flex items-center gap-1.5 font-mono text-[11px] text-muted">
+                      <span class="size-2 rounded-full" style={`background:${r.language.color ?? '#94A3B8'}`} aria-hidden="true"></span>
+                      {r.language.name}
+                    </span>
+                  )}
+                  <span class="sr-only">(opens in new tab)</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p class="mt-4 text-sm text-muted">Most of my work lives in private repositories — the heatmap tells the story.</p>
+        )}
+      </div>
+    </div>
+  </div>
+</section>
+)}

@@ -1,0 +1,49 @@
+name: Build & deploy pendley.dev
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # Daily refresh of GitHub activity, App Store status and build info.
+    # 10:17 UTC ≈ 5:17 AM Eastern (6:17 AM during daylight saving).
+    - cron: '17 10 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  deployments: write
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build (pulls live data)
+        run: npm run build
+        env:
+          # Read-only token Actions provides automatically; used for the
+          # contribution calendar. For private-repo contributions to count,
+          # enable "Private contributions" on your GitHub profile, or add a
+          # fine-grained PAT as the GH_STATS_TOKEN secret.
+          GITHUB_TOKEN: ${{ secrets.GH_STATS_TOKEN || secrets.GITHUB_TOKEN }}
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=pendley-dev --branch=main --commit-dirty=true
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}

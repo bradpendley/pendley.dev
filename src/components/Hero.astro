@@ -1,0 +1,40 @@
+---
+import Icon from './Icon.astro';
+import TerminalCard from './TerminalCard.astro';
+import { site } from '../data/site';
+---
+<section id="top" aria-labelledby="hero-title" class="relative isolate overflow-hidden">
+  <div class="drafting-grid pointer-events-none absolute inset-0 -z-10" aria-hidden="true"></div>
+  <div class="pointer-events-none absolute -top-40 left-1/2 -z-10 h-80 w-[48rem] -translate-x-1/2 rounded-full bg-cyan/10 blur-3xl" aria-hidden="true"></div>
+
+  <div class="mx-auto grid max-w-6xl items-center gap-12 px-5 pb-20 pt-16 sm:px-8 sm:pt-24 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14 lg:pb-28">
+    <div>
+      <p class="font-mono text-xs uppercase tracking-[0.18em] text-cyan">
+        {site.name} <span class="text-line-2">/</span> <span class="text-muted">{site.role}</span>
+      </p>
+
+      <h1 id="hero-title" class="mt-5 text-balance text-4xl font-semibold leading-[1.08] tracking-tight sm:text-5xl lg:text-[3.4rem]">
+        Bridging enterprise engineering, CAD automation, and native mobile experiences.
+      </h1>
+
+      <p class="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-muted">
+        I architect resilient .NET systems and custom SolidWorks, AutoCAD, and Excel integrations that connect engineering data to SAP — grounded in 15&nbsp;years of electric motor design. On my own time, I ship polished native iOS apps and build embedded hardware.
+      </p>
+
+      <div class="mt-9 flex flex-wrap items-center gap-3">
+        <a href="#work" class="inline-flex items-center gap-2 rounded-lg bg-paper px-5 py-3 text-sm font-medium text-ink transition-colors hover:bg-cyan">
+          Explore Work &amp; Apps <Icon name="arrow-down" size={15} />
+        </a>
+        <a href={site.links.linkedin} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-lg border border-line-2 px-5 py-3 text-sm font-medium text-paper transition-colors hover:border-cyan hover:text-cyan">
+          <Icon name="linkedin" size={15} /> Connect on LinkedIn <Icon name="external" size={13} class="opacity-60" />
+          <span class="sr-only">(opens in new tab)</span>
+        </a>
+        <a href="#contact" class="inline-flex items-center gap-2 px-3 py-3 text-sm font-medium text-muted transition-colors hover:text-paper">
+          Get in Touch <Icon name="arrow-right" size={15} />
+        </a>
+      </div>
+    </div>
+
+    <TerminalCard />
+  </div>
+</section>

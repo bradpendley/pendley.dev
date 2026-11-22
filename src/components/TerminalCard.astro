@@ -1,0 +1,56 @@
+---
+import { getBuildInfo, fmtDateTime } from '../lib/live';
+const build = getBuildInfo();
+/**
+ * "System status" terminal. Each domain is a native <details> row, so it's
+ * keyboard-operable and interactive with zero JavaScript.
+ */
+const domains = [
+  { name: 'Enterprise .NET', unit: 'dotnet.service', detail: 'ASP.NET Core APIs · EF Core · SQL Server · OAuth 2.0 SSO' },
+  { name: 'CAD & ERP Add-ins', unit: 'cad-erp.service', detail: 'SolidWorks · AutoCAD · Excel-DNA · SAP classification' },
+  { name: 'iOS & Swift', unit: 'ios.service', detail: 'SwiftUI · native audio/haptics · TestFlight → App Store' },
+  { name: 'Edge Infrastructure', unit: 'edge.service', detail: 'Cloudflare Pages & Workers · ESP32 · local LLMs' },
+];
+---
+<figure class="relative overflow-hidden rounded-xl border border-line-2/70 bg-ink-2/90 shadow-2xl shadow-black/40" aria-label="System status overview">
+  <div class="flex items-center gap-2 border-b border-line px-4 py-3">
+    <span class="size-2.5 rounded-full bg-line-2" aria-hidden="true"></span>
+    <span class="size-2.5 rounded-full bg-line-2" aria-hidden="true"></span>
+    <span class="size-2.5 rounded-full bg-line-2" aria-hidden="true"></span>
+    <span class="ml-2 font-mono text-[11px] text-muted">brad@pendley.dev: ~</span>
+  </div>
+
+  <div class="p-4 font-mono text-[12.5px] leading-relaxed sm:p-5 sm:text-[13px]">
+    <p class="text-muted"><span class="text-emerald">$</span> systemctl status <span class="text-paper">--domains</span></p>
+
+    <ul class="mt-3 space-y-1">
+      {domains.map((d) => (
+        <li>
+          <details class="group rounded-md border border-transparent open:border-line open:bg-ink/60">
+            <summary class="flex cursor-pointer list-none items-center gap-3 rounded-md px-2 py-1.5 transition-colors hover:bg-ink-3 [&::-webkit-details-marker]:hidden">
+              <span class="size-2 shrink-0 rounded-full bg-emerald" aria-hidden="true"></span>
+              <span class="flex-1 text-paper">{d.name}</span>
+              <span class="hidden text-muted sm:inline">{d.unit}</span>
+              <span class="text-emerald">active</span>
+              <span class="text-muted transition-transform group-open:rotate-90" aria-hidden="true">›</span>
+            </summary>
+            <p class="px-2 pb-2 pl-7 text-muted">
+              <span class="text-cyan">└─</span> {d.detail}
+            </p>
+          </details>
+        </li>
+      ))}
+    </ul>
+
+    <div class="mt-4 grid grid-cols-2 gap-x-4 gap-y-1 border-t border-line pt-3 text-[11.5px] text-muted">
+      <span>domain<span class="text-line-2">:</span> <span class="text-paper">motors × software</span></span>
+      <span>exp<span class="text-line-2">:</span> <span class="text-paper">15 yrs</span></span>
+      <span>build<span class="text-line-2">:</span> <span class="text-paper">{build.run ? `#${build.run}` : 'local'}{build.sha && <span class="text-muted"> · {build.sha}</span>}</span></span>
+      <span>via<span class="text-line-2">:</span> <span class="text-emerald">{build.trigger}</span></span>
+      <span class="col-span-2">deployed<span class="text-line-2">:</span> <span class="text-paper"><time datetime={build.builtAt}>{fmtDateTime(build.builtAt)}</time></span></span>
+    </div>
+
+    <p class="mt-3 text-muted"><span class="text-emerald">$</span> <span class="inline-block h-[1.05em] w-[0.55em] translate-y-[0.2em] bg-paper/80 motion-safe:animate-blink" aria-hidden="true"></span></p>
+  </div>
+  <figcaption class="sr-only">Four core domains — Enterprise .NET, CAD and ERP add-ins, iOS and Swift, and edge infrastructure — all active. Expand a row for details.</figcaption>
+</figure>
