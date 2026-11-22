@@ -20,7 +20,9 @@ const levelClass = ['bg-line/70', 'bg-cyan/25', 'bg-cyan/45', 'bg-cyan/70', 'bg-
 const MOBILE_WEEKS = 20;
 
 const repos = (gh?.repos ?? []).slice(0, 4);
-const lastPush = repos[0]?.pushedAt;
+// Prefer the contribution calendar (includes private work); fall back to the newest public push.
+const lastActiveDay = [...weeks.flat()].reverse().find((d) => d.count > 0)?.date;
+const lastPush = lastActiveDay ? `${lastActiveDay}T12:00:00Z` : repos[0]?.pushedAt;
 const show = !!gh && (weeks.length > 0 || repos.length > 0);
 ---
 {show && gh && (
@@ -47,8 +49,8 @@ const show = !!gh && (weeks.length > 0 || repos.length > 0);
             <dd class="mt-1 text-2xl font-semibold tabular-nums text-paper">{gh.activeDays30 ?? '—'}</dd>
           </div>
           <div>
-            <dt class="font-mono text-[11px] uppercase tracking-widest text-muted">Last push</dt>
-            <dd class="mt-1 text-2xl font-semibold text-paper">{lastPush ? relTime(lastPush) : '—'}</dd>
+            <dt class="font-mono text-[11px] uppercase tracking-widest text-muted">Last active</dt>
+            <dd class="mt-1 text-2xl font-semibold text-paper">{lastPush ? (lastActiveDay && /^\d+[mh] ago$/.test(relTime(lastPush)) ? 'today' : relTime(lastPush)) : '—'}</dd>
           </div>
         </dl>
 
