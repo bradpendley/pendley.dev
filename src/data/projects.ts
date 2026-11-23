@@ -76,28 +76,46 @@ export const filters: { id: 'all' | Category; label: string }[] = [
 
 export const projects: Project[] = [
   {
-    id: 'lofi-words',
-    title: 'Lo-Fi Word Puzzle Suite',
+    id: 'grannys-games',
+    title: "Granny's Games",
     kicker: 'Indie Mobile App',
     category: ['apps'],
-    status: 'testflight',
+    status: 'live-app-store',
     platform: 'iOS • SwiftUI',
-    size: 'wide',
+    size: 'normal',
     problem:
-      'Most word games are loud, ad-heavy, and stressful — the opposite of what a five-minute break should feel like.',
+      'Most word games are loud, ad-heavy, and timed. A five-minute break should feel calm, and the game should be easy to read at any age.',
     solution:
-      'A native iOS suite combining crosswords, anagrams, and word searches in calm, customizable themes like Rainy Cafe, with tactile audio-visual polish.',
+      'A native iOS collection of sixteen word puzzles, from crosswords and codewords to Wordoku and Word Ladder, with hundreds of levels from Easy to Insanity.',
     highlights: [
-      'Three puzzle modes sharing one native SwiftUI engine',
-      'Atmospheric, swappable themes with ambient audio',
-      'Haptics and motion tuned to feel physical',
+      'Sixteen games on one shared, unit-tested Swift puzzle engine',
+      'Large text, a dyslexia-friendly font, and VoiceOver support',
+      'English, Spanish, French, and German; offline, with no ads or tracking',
     ],
-    tags: ['Swift', 'iOS', 'UI/UX Design', 'App Store'],
-    links: [
-      { kind: 'app-store', label: 'App Store', url: '[INSERT_APP_STORE_URL]' },
-      { kind: 'testflight', label: 'Join TestFlight', url: '[INSERT_TESTFLIGHT_URL]' },
+    tags: ['Swift', 'SwiftUI', 'iOS', 'Accessibility', 'App Store'],
+    links: [{ kind: 'app-store', label: 'App Store', url: 'https://apps.apple.com/us/app/grannys-games/id6832384946' }],
+    appStore: { id: '6832384946' },
+  },
+  {
+    id: 'pawpaws-puzzles',
+    title: "Pawpaw's Puzzles",
+    kicker: 'Indie Mobile App',
+    category: ['apps'],
+    status: 'live-app-store',
+    platform: 'iOS • SwiftUI',
+    size: 'normal',
+    problem:
+      'Logic puzzles tend to be either cluttered with ads or so abstract they feel like homework.',
+    solution:
+      'The sister app to Granny\'s Games: twelve hands-on logic puzzles built from wood, blocks, and shapes, set in a grandpa\'s workshop, barn, and fishing pond.',
+    highlights: [
+      'Twelve games, each with four difficulty modes and 100 levels',
+      'SharePlay multiplayer and Game Center leaderboards',
+      'Shares a level, theme, and save foundation with Granny\'s Games',
     ],
-    // appStore: { id: '1234567890' },   // ← uncomment once the app is live
+    tags: ['Swift', 'SwiftUI', 'iOS', 'SharePlay', 'Game Center', 'App Store'],
+    links: [{ kind: 'app-store', label: 'App Store', url: 'https://apps.apple.com/us/app/pawpaws-puzzles/id6833190988' }],
+    appStore: { id: '6833190988' },
   },
   {
     id: 'cad-erp-integration',
