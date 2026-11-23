@@ -15,7 +15,7 @@ export const site = {
   links: {
     linkedin: 'https://www.linkedin.com/in/bradleypendley',
     github: 'https://github.com/bradpendley',
-    appStoreDeveloper: '[INSERT_APP_STORE_DEVELOPER_URL]',
+    appStoreDeveloper: 'https://apps.apple.com/us/developer/bradley-pendley/id6829365370',
   },
   /** Endpoint the contact form posts to (Cloudflare Pages Function in /functions/api/contact.ts). */
   contactEndpoint: '/api/contact',
