@@ -1,6 +1,6 @@
 ---
 /**
- * GitHub activity — fetched at build time (refreshed daily by CI).
+ * GitHub activity, fetched at build time (refreshed daily by CI).
  * Hides itself entirely if GitHub returned nothing.
  */
 import SectionHeader from './SectionHeader.astro';
@@ -42,15 +42,15 @@ const show = !!gh && (weeks.length > 0 || repos.length > 0);
         <dl class="grid grid-cols-3 gap-4">
           <div>
             <dt class="font-mono text-[11px] uppercase tracking-widest text-muted">Last 12 mo</dt>
-            <dd class="mt-1 text-2xl font-semibold tabular-nums text-paper">{gh.totalContributions?.toLocaleString('en-US') ?? '—'}</dd>
+            <dd class="mt-1 text-2xl font-semibold tabular-nums text-paper">{gh.totalContributions?.toLocaleString('en-US') ?? '-'}</dd>
           </div>
           <div>
             <dt class="font-mono text-[11px] uppercase tracking-widest text-muted">Active days / 30</dt>
-            <dd class="mt-1 text-2xl font-semibold tabular-nums text-paper">{gh.activeDays30 ?? '—'}</dd>
+            <dd class="mt-1 text-2xl font-semibold tabular-nums text-paper">{gh.activeDays30 ?? '-'}</dd>
           </div>
           <div>
             <dt class="font-mono text-[11px] uppercase tracking-widest text-muted">Last active</dt>
-            <dd class="mt-1 text-2xl font-semibold text-paper">{lastPush ? (lastActiveDay && /^\d+[mh] ago$/.test(relTime(lastPush)) ? 'today' : relTime(lastPush)) : '—'}</dd>
+            <dd class="mt-1 text-2xl font-semibold text-paper">{lastPush ? (lastActiveDay && /^\d+[mh] ago$/.test(relTime(lastPush)) ? 'today' : relTime(lastPush)) : '-'}</dd>
           </div>
         </dl>
 
@@ -104,7 +104,7 @@ const show = !!gh && (weeks.length > 0 || repos.length > 0);
             ))}
           </ul>
         ) : (
-          <p class="mt-4 text-sm text-muted">Most of my work lives in private repositories — the heatmap tells the story.</p>
+          <p class="mt-4 text-sm text-muted">Most of my work lives in private repositories, so the heatmap tells the story.</p>
         )}
       </div>
     </div>

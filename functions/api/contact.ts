@@ -1,5 +1,5 @@
 /**
- * Cloudflare Pages Function — POST /api/contact
+ * Cloudflare Pages Function: POST /api/contact
  * Sends contact-form submissions through Resend (https://resend.com).
  *
  * Setup (Cloudflare dashboard → Pages → pendley-dev → Settings → Variables):
@@ -38,7 +38,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     return reply(false, 400, 'invalid body');
   }
 
-  // Honeypot — pretend success so bots learn nothing.
+  // Honeypot: pretend success so bots learn nothing.
   if (String(form.get('company') ?? '').trim()) return reply(true, 200);
 
   const name = String(form.get('name') ?? '').trim().slice(0, MAX.name);
@@ -55,7 +55,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       from: env.CONTACT_FROM,
       to: [env.CONTACT_TO],
       reply_to: email,
-      subject: `pendley.dev — message from ${name}`,
+      subject: `pendley.dev: message from ${name}`,
       text: `From: ${name} <${email}>\n\n${message}`,
       html: `<p><strong>From:</strong> ${escapeHtml(name)} &lt;${escapeHtml(email)}&gt;</p><pre style="white-space:pre-wrap;font-family:inherit">${escapeHtml(message)}</pre>`,
     }),
