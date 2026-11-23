@@ -43,7 +43,7 @@ export const principles = [
   {
     code: 'P-02',
     title: 'Built for the shop floor',
-    text: 'Enterprise software runs unattended at 5 a.m. I design for that — heartbeats, failure alerts, and logs that explain themselves.',
+    text: 'Enterprise software runs unattended at 5 a.m. I design for that: heartbeats, failure alerts, and logs that explain themselves.',
   },
   {
     code: 'P-03',

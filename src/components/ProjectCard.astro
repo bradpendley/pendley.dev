@@ -8,7 +8,7 @@ interface Props { project: Project; }
 const { project: base } = Astro.props;
 
 // Live App Store data (build-time). If found, it overrides the status badge
-// and fills in the App Store link — no manual edits needed after launch.
+// and fills in the App Store link, so no manual edits needed after launch.
 const app = base.appStore ? await getApp(base.appStore) : null;
 const p: Project = app
   ? {

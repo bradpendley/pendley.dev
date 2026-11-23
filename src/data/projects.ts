@@ -1,6 +1,6 @@
 /**
  * ─────────────────────────────────────────────────────────────────────────────
- *  PROJECT CONFIG — edit this file to add apps, swap URLs, or change badges.
+ *  PROJECT CONFIG: edit this file to add apps, swap URLs, or change badges.
  * ─────────────────────────────────────────────────────────────────────────────
  *  • category  → drives the filter pills (a project can be in several).
  *  • status    → drives the coloured status badge on each card.
@@ -126,7 +126,7 @@ export const projects: Project[] = [
     platform: 'C# • .NET 8/10',
     size: 'normal',
     problem:
-      'Engineering teams often re-key ERP data into CAD and spreadsheets by hand — slow, and a steady source of BOM errors.',
+      'Engineering teams often re-key ERP data into CAD and spreadsheets by hand, which is slow and a steady source of BOM errors.',
     solution:
       'Custom add-ins that bring ERP data directly into SolidWorks, AutoCAD, and Excel, so engineers work in the tools they already know.',
     highlights: [
@@ -182,7 +182,7 @@ export const projects: Project[] = [
       'Custom ESP32/Arduino sensor nodes and optocoupler-isolated triggers feeding a local pipeline, with local LLMs on Apple Silicon making sense of the data.',
     highlights: [
       'ESP32 sensor nodes and optocoupler hardware triggers',
-      'Local LLM orchestration — data stays in the house',
+      'Local LLM orchestration that keeps data in the house',
       'Cloudflare Workers for the few things that must be reachable remotely',
     ],
     tags: ['C++', 'ESP32', 'Local LLMs', 'Cloudflare Workers'],

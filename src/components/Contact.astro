@@ -108,7 +108,7 @@ const label = 'font-mono text-[11px] uppercase tracking-widest text-muted';
       });
       if (!res.ok) throw new Error(String(res.status));
       form.reset();
-      status.textContent = '✓ Sent — I’ll reply soon.';
+      status.textContent = '✓ Sent. I’ll reply soon.';
       status.className = 'font-mono text-xs text-emerald';
     } catch {
       status.textContent = 'Couldn’t send. Please email me directly.';
@@ -121,6 +121,6 @@ const label = 'font-mono text-[11px] uppercase tracking-widest text-muted';
   // Non-JS fallback lands on /?sent=1#contact
   if (new URLSearchParams(location.search).get('sent') === '1') {
     const s = document.querySelector<HTMLElement>('[data-form-status]');
-    if (s) { s.textContent = '✓ Sent — I’ll reply soon.'; s.className = 'font-mono text-xs text-emerald'; }
+    if (s) { s.textContent = '✓ Sent. I’ll reply soon.'; s.className = 'font-mono text-xs text-emerald'; }
   }
 </script>

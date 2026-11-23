@@ -1,9 +1,9 @@
 # pendley.dev
 
-Personal portfolio for Bradley Pendley — Astro 7 + Tailwind CSS v4, static, deployed on Cloudflare Pages.
+Personal portfolio for Bradley Pendley, built with Astro 7 + Tailwind CSS v4, static, deployed on Cloudflare Pages.
 
 - ~18 KB gzipped HTML (CSS inlined), one ~1 KB script, self-hosted variable fonts
-- Project filter and architecture modals use native HTML (`:has()` + radio inputs, Popover API) — **zero JS**
+- Project filter and architecture modals use native HTML (`:has()` + radio inputs, Popover API) with **zero JS**
 - Strict CSP (`script-src 'self'`) in `public/_headers`
 
 ## Run locally
@@ -66,28 +66,28 @@ and on demand (Actions → *Build & deploy* → *Run workflow*). Each build refr
 | App Store status | iTunes Lookup API | Set `appStore: { id: '…' }` on a project; version, rating and link fill in and the badge flips to *Live on App Store*. |
 | Build strip (hero terminal) | CI env | Run number, commit, trigger, deploy time. |
 
-All data is fetched at **build time** — the shipped site is still static with no client-side API calls.
+All data is fetched at **build time**, so the shipped site is still static with no client-side API calls.
 
 ### One-time setup
 
 1. Push this folder to a GitHub repo (e.g. `bradpendley/pendley.dev`) with `main` as the default branch.
 2. Repo → Settings → Secrets and variables → Actions → add:
-   - `CLOUDFLARE_API_TOKEN` — Cloudflare → My Profile → API Tokens → *Create token* →
+   - `CLOUDFLARE_API_TOKEN`: Cloudflare → My Profile → API Tokens → *Create token* →
      template **Edit Cloudflare Workers** (or a custom token with *Account · Cloudflare Pages · Edit*).
-   - `CLOUDFLARE_ACCOUNT_ID` — shown on the Workers & Pages overview page.
-   - `GH_STATS_TOKEN` *(optional)* — fine-grained PAT with no extra scopes; only needed if the
+   - `CLOUDFLARE_ACCOUNT_ID`: shown on the Workers & Pages overview page.
+   - `GH_STATS_TOKEN` *(optional)*: fine-grained PAT with no extra scopes; only needed if the
      default token can't read your contribution calendar.
 3. To count private work in the heatmap: GitHub → your profile → *Contribution settings* →
    enable **Private contributions** (shows counts only, never repo names).
 
 ### Local builds
 
-- `LIVE_DATA=mock npm run dev` — design with sample data
-- `LIVE_DATA=off npm run build` — skip all network calls
-- `GITHUB_TOKEN=$(gh auth token) npm run build` — real data locally
+- `LIVE_DATA=mock npm run dev`: design with sample data
+- `LIVE_DATA=off npm run build`: skip all network calls
+- `GITHUB_TOKEN=$(gh auth token) npm run build`: real data locally
 
 ## Still to do
 
 - Replace `INSERT_` placeholders (App Store, TestFlight, schematic notes)
-- `public/og.png` is a hero screenshot — regenerate it if you change the hero
+- `public/og.png` is a hero screenshot; regenerate it if you change the hero
 - For the App Store button, you may swap in Apple's official badge from Apple's marketing resources

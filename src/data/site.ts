@@ -6,9 +6,9 @@
 export const site = {
   name: 'Bradley Pendley',
   domain: 'pendley.dev',
-  title: 'Bradley Pendley — Software Developer & Systems Architect',
+  title: 'Bradley Pendley | Software Developer & Systems Architect',
   description:
-    'Bradley Pendley builds resilient .NET systems, SolidWorks/AutoCAD/Excel integrations wired into SAP, and native iOS apps — grounded in 15 years of electric motor design.',
+    'Bradley Pendley builds resilient .NET systems, SolidWorks/AutoCAD/Excel integrations wired into SAP, and native iOS apps, grounded in 15 years of electric motor design.',
   role: 'Software Developer & Systems Architect',
   location: 'Building in Georgia',
   email: 'bradley@pendley.dev',
