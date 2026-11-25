@@ -1,0 +1,38 @@
+---
+import Base from '../../layouts/Base.astro';
+import { site } from '../../data/site';
+const updated = 'November 24, 2026';
+---
+<Base title="Motor University — Privacy Policy" description="Motor University collects no personal data. Everything stays on your device.">
+  <main id="main" class="mx-auto max-w-2xl px-6 py-16 leading-relaxed">
+    <p class="font-mono text-sm text-muted"><span class="text-emerald">$</span> cat motor-university/privacy.md</p>
+    <h1 class="mt-4 text-3xl font-semibold text-paper">Motor University privacy policy</h1>
+    <p class="mt-2 text-sm text-muted">Last updated {updated}</p>
+
+    <p class="mt-8 text-paper"><strong>Short version: Motor University doesn't collect, store or share any personal data.</strong> There are no accounts, ads, analytics or tracking, and the app doesn't send anything to us or to any third party.</p>
+
+    <h2 class="mt-10 text-xl font-semibold text-paper">What stays on your device</h2>
+    <ul class="mt-3 list-disc space-y-2 pl-6 text-paper">
+      <li><strong>Your progress</strong>: lessons, stars, XP, streaks, badges, saved motor designs, Codex notes and settings. These are stored only on your iPhone or iPad. Deleting the app deletes them.</li>
+      <li><strong>The name you type on your Student ID</strong> appears only inside the app.</li>
+      <li><strong>Staff sign-in</strong>: if you enter a teacher code, the app checks it on the device and remembers that this device is signed in. The code is never sent anywhere.</li>
+    </ul>
+
+    <h2 class="mt-10 text-xl font-semibold text-paper">Camera and photos</h2>
+    <p class="mt-3 text-paper">The nameplate scanner uses the camera, or a photo you pick, to read the text on a motor's nameplate. The text is recognized on the device with Apple's Vision framework. The image isn't saved by the app or uploaded anywhere. You can turn off camera access at any time in Settings → Privacy &amp; Security → Camera.</p>
+
+    <h2 class="mt-10 text-xl font-semibold text-paper">Ask Joe (on-device AI tutor)</h2>
+    <p class="mt-3 text-paper">On devices that support Apple Intelligence, Ask Joe answers questions using Apple's on-device Foundation Models. Your questions and Joe's answers are processed on your device and are not sent to us or anyone else.</p>
+
+    <h2 class="mt-10 text-xl font-semibold text-paper">Apple</h2>
+    <p class="mt-3 text-paper">If you choose to share crash reports or app analytics with developers in your device settings, Apple may provide anonymous, aggregated diagnostics. That is governed by <a class="text-cyan underline underline-offset-4" href="https://www.apple.com/legal/privacy/">Apple's privacy policy</a>, not this one.</p>
+
+    <h2 class="mt-10 text-xl font-semibold text-paper">Children</h2>
+    <p class="mt-3 text-paper">Motor University is suitable for students of all ages. Because the app collects no personal information from anyone, it collects none from children.</p>
+
+    <h2 class="mt-10 text-xl font-semibold text-paper">Changes and contact</h2>
+    <p class="mt-3 text-paper">If this policy ever changes, the new version will be posted here with a new date. Questions: <a class="text-cyan underline underline-offset-4" href={`mailto:${site.email}?subject=Motor%20University%20privacy`}>{site.email}</a>.</p>
+
+    <p class="mt-12 font-mono text-sm"><a href="/motor-university/support" class="text-cyan underline underline-offset-4">Support</a> · <a href="/" class="text-cyan underline underline-offset-4">pendley.dev</a></p>
+  </main>
+</Base>

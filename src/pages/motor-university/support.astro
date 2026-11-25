@@ -1,0 +1,45 @@
+---
+import Base from '../../layouts/Base.astro';
+import { site } from '../../data/site';
+const mail = (subject: string) => `mailto:${site.email}?subject=${encodeURIComponent(subject)}`;
+---
+<Base title="Motor University — Support" description="Help and contact for Motor University, the comic-book course on electric motors.">
+  <main id="main" class="mx-auto max-w-2xl px-6 py-16 leading-relaxed">
+    <p class="font-mono text-sm text-muted"><span class="text-emerald">$</span> cat motor-university/support.md</p>
+    <h1 class="mt-4 text-3xl font-semibold text-paper">Motor University support</h1>
+    <p class="mt-4 text-paper">Motor University teaches electric motors the way a comic book would, from "what's a stator?" to designing a permanent-magnet motor. If something isn't working, or an answer in a lesson looks wrong, I'd like to hear about it.</p>
+
+    <p class="mt-6"><a class="inline-block rounded border border-line-2 px-4 py-2 font-mono text-sm text-cyan hover:bg-ink-3" href={mail('Motor University support')}>Email {site.email}</a></p>
+    <p class="mt-2 text-sm text-muted">Include your device, iOS version and what you were doing. A screenshot helps. Spotted an engineering error? Tell me the lesson name, and I'll fix it in the next update.</p>
+
+    <h2 class="mt-10 text-xl font-semibold text-paper">Common questions</h2>
+    <dl class="mt-3 space-y-5 text-paper">
+      <div>
+        <dt class="font-semibold">A lesson is locked. How do I open it?</dt>
+        <dd class="mt-1">Lessons unlock in order. Finish the one before it with at least 60%. If you already know the basics, choose a higher starting year on the ID Card tab under "Enrolled from".</dd>
+      </div>
+      <div>
+        <dt class="font-semibold">I'm a teacher. Can I open every lesson?</dt>
+        <dd class="mt-1">Yes. Teacher mode unlocks everything. It needs a staff code; <a class="text-cyan underline underline-offset-4" href={mail('Motor University teacher code')}>email me</a> from your school address to request one, then enter it on the ID Card tab under Staff sign-in.</dd>
+      </div>
+      <div>
+        <dt class="font-semibold">Why don't I see Ask Joe?</dt>
+        <dd class="mt-1">Ask Joe uses Apple's on-device AI, so it appears only on iOS 26 or later with Apple Intelligence turned on, on a device that supports it.</dd>
+      </div>
+      <div>
+        <dt class="font-semibold">My streak went back to zero.</dt>
+        <dd class="mt-1">A streak counts days in a row with at least one lesson or Daily Spark. Missing a whole day resets it. Your longest streak is kept on the ID Card.</dd>
+      </div>
+      <div>
+        <dt class="font-semibold">How do I start over?</dt>
+        <dd class="mt-1">ID Card → Erase Progress. Saved motor designs and Codex notes are kept.</dd>
+      </div>
+      <div>
+        <dt class="font-semibold">Does it need the internet or an account?</dt>
+        <dd class="mt-1">No. Everything works offline, and there's no sign-up. See the <a class="text-cyan underline underline-offset-4" href="/motor-university/privacy">privacy policy</a>.</dd>
+      </div>
+    </dl>
+
+    <p class="mt-12 font-mono text-sm"><a href="/motor-university/privacy" class="text-cyan underline underline-offset-4">Privacy</a> · <a href="/" class="text-cyan underline underline-offset-4">pendley.dev</a></p>
+  </main>
+</Base>
